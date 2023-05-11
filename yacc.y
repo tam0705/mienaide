@@ -702,7 +702,7 @@ arr_ref : IDENT '[' expr ']' {
             
             ssymbol ssy = $3;
 
-            if (ssy->type == tArr || ssy->valType != tInt)
+            if (ssy.type == tArr || ssy.valType != tInt)
                 yyerror("Illegal array reference, expression inside [] must be an integer");
 
             // Temporary closed, this HW does not store value
