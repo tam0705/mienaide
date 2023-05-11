@@ -422,6 +422,11 @@ procdec : PROCEDURE IDENT {
             sy->valType = tNull;
             *(sy->val.f) = f;
 
+            for (int i = 0; i < f.argsize; i++) {
+                if (f.args[i].type == tArr)
+                    printf("Size %d\n", f.args[i].val.a->size);
+            }
+
             addScope(); 
           }
           body {
