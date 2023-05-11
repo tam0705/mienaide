@@ -666,7 +666,11 @@ term : '(' expr ')' { $$ = $2; }
         
         $$ = $2;
      }
-     | arr_ref { $$ = symbolToSmall($1); }
+     | arr_ref { 
+        $$ = symbolToSmall($1);
+        $$.type = tArr;
+        printf("Array reference again");
+     }
      | call { $$ = $1; }
      | IDENT {
         symbol* sy = lookup($1);
@@ -713,6 +717,7 @@ arr_ref : IDENT '[' expr ']' {
             //    yyerror("Illegal access, array index out of bounds");
             
             // Temporary
+            trace("Array reference");
             $$ = *sy;
             $$.valType = tVar;
             trace("Array reference");
