@@ -29,7 +29,7 @@ end itFibonacci
 procedure putArray(num: int, a: array 1 .. 8 of int)
   for i : 1 .. n
     a[i] := num - 1
-    if (a[i] < 1)
+    if (a[i] < 1) then
       a[i] := 1
     end if
     put itFibonacci(a[i]) + num
@@ -45,6 +45,7 @@ begin
   var r: real := 1 + 1.0 * (2.5 - 3) / 2.7
   put s
   put ss
+  arr[1] := 0
 end
 
 put "N: "
