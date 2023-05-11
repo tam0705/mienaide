@@ -698,7 +698,6 @@ arr_ref : IDENT '[' expr ']' {
             if (sy == NULL)
                 yyerror("Unrecognized identifier");
             
-            printf();
             if (sy->type != tArr)
                 yyerror("Illegal operation, trying to access a non-array as an array");
             
