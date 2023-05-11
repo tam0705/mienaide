@@ -50,6 +50,7 @@ void deleteScope() {
     // Free memory
     freeTable(temp->table);
     free(temp);
+    printf("free done");
 }
 
 void dump() {
@@ -59,7 +60,9 @@ void dump() {
 }
 
 void freeArray(array* a) {
+    printf("free array");
     free(a);
+    printf("free array done");
 }
 
 void freeArguments(argument* args, int size) {
@@ -78,12 +81,14 @@ void freeFunction(function* f) {
 }
 
 void freeSymbol(symbol sy) {
+    printf("free symbol");
     free(sy.name);
     switch (sy.type) {
         case tProc:
         case tFunc: freeFunction(sy.val.f); break;
         case tArr: freeArray(sy.val.a); break;
     }
+    printf("free symbol done");
 }
 
 void freeTable(symbol* table) {
