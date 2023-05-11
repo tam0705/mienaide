@@ -54,7 +54,7 @@ void deleteScope() {
     printf("free\n");
     freeTable(temp->table);
     printf("free 1\n");
-    free(temp);
+    //free(temp);
     printf("free done\n");
 }
 
