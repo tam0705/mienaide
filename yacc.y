@@ -777,7 +777,7 @@ int yywrap() {
 
 void yyerror(char* s) {
     fprintf(stderr, "Syntax error in line %d: %s\n", yylineno, s);
-    exitProgram();
+    // exitProgram();
 }
 
 void exitProgram() {
