@@ -35,8 +35,7 @@ procedure putArray(num: int, a: array 1 .. 8 of int)
     put itFibonacci(a[i]) + num
     put "\n"
   end for
-
-end test
+end putArray
 
 % main program
 begin
