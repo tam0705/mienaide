@@ -48,7 +48,9 @@ void deleteScope() {
     memory = memory->next;
 
     // Free memory
+    printf("free");
     freeTable(temp->table);
+    printf("free 1");
     free(temp);
     printf("free done");
 }
