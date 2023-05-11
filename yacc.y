@@ -515,11 +515,12 @@ argument : IDENT ':' vtype {
             a.val.a->size = last - first + 1;
             
             ssymbol ssy;
+            ssy.type = a.type;
             ssy.valType = valType;
             ssy.isConst = false;
             ssy.val = a.val;
 
-            symbol sy = createSymbol(name, tVar, ssy);
+            symbol sy = createSymbol(name, tArr, ssy);
             insertSymbol(sy, idx);
 
             $$ = a;
@@ -697,6 +698,7 @@ arr_ref : IDENT '[' expr ']' {
             if (sy == NULL)
                 yyerror("Unrecognized identifier");
             
+            printf();
             if (sy->type != tArr)
                 yyerror("Illegal operation, trying to access a non-array as an array");
             
