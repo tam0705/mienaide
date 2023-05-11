@@ -57,6 +57,10 @@
     - Lookup errors. There are currently two:
         - ERR_ALREADY_EXISTS: When you want to insert a symbol into the table, but a symbol with the same name in current scope already exists.
         - ERR_TABLE_FULL: When you want to insert a symbol into the table, but the table of current scope is already full.
+
+    Regarding numbers, I've allowed mixed operations between integers and reals.
+    When there is a real number in an expression, the whole expression will have value type real.
+    Assignment of a real to an integer and vice versa are also allowed.
 */
 
 %{
@@ -777,7 +781,7 @@ int yywrap() {
 
 void yyerror(char* s) {
     fprintf(stderr, "Syntax error in line %d: %s\n", yylineno, s);
-    // exitProgram();
+    exitProgram();
 }
 
 void exitProgram() {
