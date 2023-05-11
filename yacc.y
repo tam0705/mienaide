@@ -714,6 +714,7 @@ arr_ref : IDENT '[' expr ']' {
             // Temporary
             $$ = *sy;
             $$.valType = tVar;
+            trace("Array reference");
         };
 
 // Function/procedure invocation that HAS arguments
