@@ -86,7 +86,7 @@ void freeFunction(function* f) {
 }
 
 void freeSymbol(symbol sy) {
-    printf("free symbol\n");
+    printf("free symbol %s\n", sy.name);
     free(sy.name);
     switch (sy.type) {
         case tProc:

@@ -43,7 +43,7 @@ begin
   %var ss := "I'm just for test purposes"
   %var r: real := 1 + 1.0 * (2.5 - 3) / 2.7
   put s
-  put ss
+  %put ss
   arr[1] := 0
 end
 
