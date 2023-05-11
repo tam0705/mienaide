@@ -151,7 +151,7 @@ statement : block { $$ = tNull; }
 
 // Begin - end block
 // Add scope when entering, remove scope when leaving
-block : BEGIN_ { addScope(); } body { trace("a"); trace("b"); } END;
+block : BEGIN_ { addScope(); } body { trace("a"); deleteScope(); trace("b"); } END;
 
 // Simple statements
 // $$ stores return type, is used to check function and procedure return type
