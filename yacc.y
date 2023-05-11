@@ -567,7 +567,6 @@ expr : expr MINUS expr {
         $$ = opNumber($1, $3, oMod);
      }
      | expr LESS expr {
-        printf("%d %d  %d %d\n", $1.valType, $3.valType, $1.type, $3.type);
         if (!isBothNumber($1.valType, $3.valType) || $1.type == tArr || $3.type == tArr)
             yyerror("Illegal comparison, an operand is not numeric");
         
@@ -668,8 +667,7 @@ term : '(' expr ')' { $$ = $2; }
      }
      | arr_ref { 
         $$ = symbolToSmall($1);
-        $$.type = tArr;
-        printf("Array reference again");
+        $$.type = tVar;
      }
      | call { $$ = $1; }
      | IDENT {
@@ -689,7 +687,6 @@ term : '(' expr ')' { $$ = $2; }
         }
 
         $$ = symbolToSmall(*sy);
-        trace("Normal ident");
      }
      | NUM_INT  { $$ = createInt($1, true); }
      | NUM_REAL  { $$ = createInt($1, true); }
@@ -717,10 +714,8 @@ arr_ref : IDENT '[' expr ']' {
             //    yyerror("Illegal access, array index out of bounds");
             
             // Temporary
-            trace("Array reference");
             $$ = *sy;
-            $$.valType = tVar;
-            trace("Array reference");
+            $$.type = tVar;
         };
 
 // Function/procedure invocation that HAS arguments
