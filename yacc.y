@@ -691,9 +691,8 @@ term : '(' expr ')' { $$ = $2; }
      | FALSE { $$ = createBool($1, true); };
 
 // Array reference
-arr_ref : IDENT '[' NUM_INT ']' {
+arr_ref : IDENT '[' expr ']' {
             symbol* sy = lookup($1);
-            int idx = $3;
 
             if (sy == NULL)
                 yyerror("Unrecognized identifier");
@@ -701,8 +700,14 @@ arr_ref : IDENT '[' NUM_INT ']' {
             if (sy->type != tArr)
                 yyerror("Illegal operation, trying to access a non-array as an array");
             
-            if (idx < sy->val.a->first || idx > sy->val.a->last)
-                yyerror("Illegal access, array index out of bounds");
+            ssymbol ssy = $3;
+
+            if (ssy->type == tArr || ssy->valType != tInt)
+                yyerror("Illegal array reference, expression inside [] must be an integer");
+
+            // Temporary closed, this HW does not store value
+            //if (idx < sy->val.a->first || idx > sy->val.a->last)
+            //    yyerror("Illegal access, array index out of bounds");
             
             // Temporary
             $$ = *sy;
