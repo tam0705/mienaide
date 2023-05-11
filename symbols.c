@@ -275,9 +275,12 @@ bool isFuncEqual(function f1, function f2) {
     if (f1.argsize != f2.argsize) return false;
 
     for (int i = 0; i < f1.argsize; i++) {
+        printf("%d %d\n", f1.args[i].type, f1.args[i].valType);
+        printf("%d %d\n", f2.args[i].type, f2.args[i].valType);
         if (f1.args[i].type != f2.args[i].type) return false;
         if (f1.args[i].valType != f2.args[i].valType) return false;
         if (f1.args[i].type == tArr) {
+            printf("Array %d %d\n", f1.args[i].val.a->size, f2.args[i].val.a->size);
             if (f1.args[i].val.a->size != f2.args[i].val.a->size) return false;
         }
     }
