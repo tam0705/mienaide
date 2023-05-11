@@ -44,15 +44,18 @@ void addScope() {
 
 void deleteScope() {
     // Delete from beginning
+    printf("b\n");
     tables* temp = memory;
+    printf("c\n");
     memory = memory->next;
+    printf("d\n");
 
     // Free memory
-    printf("free");
+    printf("free\n");
     freeTable(temp->table);
-    printf("free 1");
+    printf("free 1\n");
     free(temp);
-    printf("free done");
+    printf("free done\n");
 }
 
 void dump() {
@@ -62,9 +65,9 @@ void dump() {
 }
 
 void freeArray(array* a) {
-    printf("free array");
+    printf("free array\n");
     free(a);
-    printf("free array done");
+    printf("free array done\n");
 }
 
 void freeArguments(argument* args, int size) {
@@ -83,14 +86,14 @@ void freeFunction(function* f) {
 }
 
 void freeSymbol(symbol sy) {
-    printf("free symbol");
+    printf("free symbol\n");
     free(sy.name);
     switch (sy.type) {
         case tProc:
         case tFunc: freeFunction(sy.val.f); break;
         case tArr: freeArray(sy.val.a); break;
     }
-    printf("free symbol done");
+    printf("free symbol done\n");
 }
 
 void freeTable(symbol* table) {
