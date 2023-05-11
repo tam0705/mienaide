@@ -567,6 +567,7 @@ expr : expr MINUS expr {
         $$ = opNumber($1, $3, oMod);
      }
      | expr LESS expr {
+        printf("%d %d  %d %d\n", $1.valType, $3.valType, $1.type, $3.type);
         if (!isBothNumber($1.valType, $3.valType) || $1.type == tArr || $3.type == tArr)
             yyerror("Illegal comparison, an operand is not numeric");
         
