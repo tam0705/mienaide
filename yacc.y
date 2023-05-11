@@ -685,6 +685,7 @@ term : '(' expr ')' { $$ = $2; }
         }
 
         $$ = symbolToSmall(*sy);
+        trace("Normal ident");
      }
      | NUM_INT  { $$ = createInt($1, true); }
      | NUM_REAL  { $$ = createInt($1, true); }
