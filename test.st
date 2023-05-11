@@ -6,7 +6,7 @@
 % global variables
 const  n: int := 8
 var i := 1
-var arr : array 1 .. n of int
+var arr : array 1 .. 8 of int
 
 % iterative function
 function itFibonacci (n: int) : int
@@ -26,7 +26,7 @@ function itFibonacci (n: int) : int
   result Fn
 end itFibonacci
 
-procedure putArray(num: int, a: array 1 .. n of int)
+procedure putArray(num: int, a: array 1 .. 8 of int)
   for i : 1 .. n
     a[i] := num - 1
     if (a[i] < 1)
