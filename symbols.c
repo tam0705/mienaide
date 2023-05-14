@@ -49,7 +49,7 @@ void deleteScope() {
     tables* temp = memory;
     memory = memory->next;
 
-    printf(">>> Exiting a local scope and freeing its memory..\n");
+    printf(">>> Exiting a scope and freeing its memory..\n");
     printf("-------------------------------------\n");
     printf("Symbol\t\t\tType\t\t\tValue type\n");
 
@@ -102,7 +102,12 @@ void freeSymbol(symbol sy) {
             type = names[4];
         const char* valType = types[sy.valType];
 
-        printf("%s\t\t\t%s\t\t\t%s\n", sy.name, type, valType);
+        char* tabs[2][4] = { "\t\t\t", "\t\t\t" };
+        if (strlen(sy.name) >= 8) tabs[0][3] = '\0';
+        if (strlen(sy.name) >= 16) tabs[0][2] = '\0';
+        if (strlen(type) >= 8) tabs[1][3] = '\0';
+
+        printf("%s%s%s%s%s\n", sy.name, tabs[0], type, tabs[1], valType);
 
     }
     free(sy.name);
