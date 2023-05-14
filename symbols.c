@@ -288,14 +288,14 @@ ssymbol opNumber(ssymbol n1, ssymbol n2, int op) {
     return n1;
 }
 
-void copyFunction(function from, function* to) {
-    printf("a\n");
-    *to = from;
-    printf("aa\n");
-
+void copyFunction(function from, function* to) {    
+    to->argsize = from.argsize;
+    printf("a");
+    to->args = from.args;
+    printf("a2");
     if (to->argsize <= 0)
         return; 
-    
+    printf("aa");
     to->args = malloc(to->argsize * sizeof(argument));
     for (int i = 0; i < to->argsize; i++) {
         printf("aaa\n");
