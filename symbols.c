@@ -90,7 +90,7 @@ void freeSymbol(symbol sy) {
         printf("free symbol1\n");
         switch (sy.type) {
             case tProc:
-            case tFunc: break; //freeFunction(sy.val.f); break;
+            case tFunc: freeFunction(sy.val.f); break;
             case tArr: break; //freeArray(sy.val.a); break;
         }
 
