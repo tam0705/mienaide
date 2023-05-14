@@ -387,6 +387,7 @@ funcdec : FUNCTION IDENT {
             trace("aa");
             symbol* sy = lookup($2);
             sy->valType = valType;
+            trace("aa2");
             copyFunction(f, sy->val.f);
             trace("aaa");
             addScope(); 
