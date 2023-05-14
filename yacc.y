@@ -395,8 +395,8 @@ funcdec : FUNCTION IDENT {
             int returnType = $11;
             if (valType != returnType)
                 yyerror("Function must have correct result type");
-
-            deleteScope(); deleteScope();
+            trace("a");
+            deleteScope(); trace("b"); deleteScope();
           }
           END IDENT {
                 if (strcmp($2, $14) != 0)
