@@ -381,17 +381,15 @@ funcdec : FUNCTION IDENT {
             trace("Note: This is a scope just for the arguments");
 
           } '(' arguments ')' ':' vtype NEWLINE {
-            trace("a");
             function f = $5;
             int valType = $8;
-            trace("aa");
+            
             symbol* sy = lookup($2);
             sy->valType = valType;
-            trace("aa2");
+            sy->val.f = malloc(sizeof(function));
             copyFunction(f, sy->val.f);
-            trace("aaa");
+            
             addScope(); 
-            trace("aaaa");
           }
           body {
             int valType = $8;
