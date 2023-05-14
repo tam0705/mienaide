@@ -86,7 +86,6 @@ void freeFunction(function* f) {
 }
 
 void freeSymbol(symbol sy) {
-    printf("free symbol\n");
     if (strcmp(sy.name, empty) != 0) {
         printf("free symbol1\n");
         switch (sy.type) {
@@ -94,26 +93,30 @@ void freeSymbol(symbol sy) {
             case tFunc: break; //freeFunction(sy.val.f); break;
             case tArr: break; //freeArray(sy.val.a); break;
         }
-        printf("free symbol2\n");
 
         // Print out symbol
-        const char names[5][10] = { "Variable", "Array", "Procedure", "Function", "Constant" };
-        const char types[7][10] = { "Integer", "Real", "Boolean", "String", "", "", "None" };
-
+        static const char names[5][10] = { "Variable", "Array", "Procedure", "Function", "Constant" };
+        static const char types[7][10] = { "Integer", "Real", "Boolean", "String", "", "", "None" };
+        printf("free symbol2\n");
         const char* type = names[sy.type];
+        printf("free symbol3\n");
         if (sy.isConst)
             type = names[4];
         const char* valType = types[sy.valType];
+        printf("free symbol4\n");
 
         char tabs[2][4] = { "\t\t\t", "\t\t\t" };
         if (strlen(sy.name) >= 8) tabs[0][2] = '\0';
         if (strlen(sy.name) >= 16) tabs[0][1] = '\0';
         if (strlen(type) >= 8) tabs[1][2] = '\0';
+        printf("free symbol5\n");
 
         printf("%s%s%s%s%s\n", sy.name, tabs[0], type, tabs[1], valType);
 
     }
+    printf("free symbol6\n");
     free(sy.name);
+    printf("free symbol7\n");
 }
 
 void freeTable(symbol* table) {
