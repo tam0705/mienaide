@@ -1,5 +1,5 @@
 function a(a:int, b:int, c:int):int
-	result a + (b + c) + a + c;
+	result a + (b + c) + a + c
 end a
 
 function b(a:int):int
