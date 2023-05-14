@@ -50,14 +50,14 @@ void deleteScope() {
     memory = memory->next;
 
     printf(">>> Exiting a scope and freeing its memory..\n");
-    printf("-------------------------------------\n");
+    printf("-----------------------------------------------\n");
     printf("Symbol\t\t\tType\t\t\tValue type\n");
 
     // Free memory
     freeTable(temp->table);
     free(temp);
 
-    printf("-------------------------------------\n");
+    printf("-----------------------------------------------\n");
 }
 
 void dump() {
