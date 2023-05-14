@@ -10,6 +10,6 @@ function c(c:int):int
 	result c / 2.5
 end c
 
-% put a(b(a(1,2,3)), 1, c(b(1)))
+put b(a(1,2,3))
 
 put "n"
