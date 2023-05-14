@@ -235,7 +235,7 @@ symbol* lookup(char* s) {
 symbol* lookupSkip(char* s, int skipScope) {
     // Find symbol, skipping scope skipScope times, finding it from that scope
     tables* it = memory;
-    for (int i = 0; i < skipSCope && it; i++) {
+    for (int i = 0; i < skipScope && it; i++) {
         it = it->next;
     }
     while(it) {
