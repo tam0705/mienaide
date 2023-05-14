@@ -116,7 +116,7 @@ void freeSymbol(symbol sy) {
         //printf("%s", tabs[0]);
         //printf("%s", type);
         //printf("%s", tabs[1]);
-        printf("%s\n", valType);
+        //printf("%s\n", valType);
 
     }
     free(sy.name);
