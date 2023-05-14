@@ -318,7 +318,11 @@ void copyFunction(function from, function* to) {
 }
 
 bool isFuncEqual(function f1, function f2) {
+    printf("a\n");
     if (f1.argsize != f2.argsize) return false;
+
+    printf("%d %d\n", f1.type, f1.valType);
+    printf("%d %d\n", f2.type, f2.valType);
 
     for (int i = 0; i < f1.argsize; i++) {
         if (f1.args[i].type != f2.args[i].type) return false;
