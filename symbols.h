@@ -69,6 +69,7 @@ ssymbol createString(char* val, bool isConst);
 ssymbol symbolToSmall(symbol sy);
 
 symbol* lookup(char* s);
+symbol* lookupSkip(char* s, int skipScope);
 
 int insertLookup(char* s);
 void insertSymbol(symbol sy, int idx);

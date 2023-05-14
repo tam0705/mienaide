@@ -384,9 +384,8 @@ funcdec : FUNCTION IDENT {
             function f = $5;
             int valType = $8;
             
-            symbol* sy = lookup($2);
+            symbol* sy = lookupSkip($2, 1);
             sy->valType = valType;
-            sy->val.f = malloc(sizeof(function));
             copyFunction(f, sy->val.f);
             
             addScope(); 
@@ -422,9 +421,8 @@ procdec : PROCEDURE IDENT {
           } '(' arguments ')' NEWLINE {
             function f = $5;
 
-            symbol* sy = lookup($2);
+            symbol* sy = lookupSkip($2, 1);
             sy->valType = tNull;
-            sy->val.f = malloc(sizeof(function));
             copyFunction(f, sy->val.f);
 
             addScope(); 

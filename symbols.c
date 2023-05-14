@@ -164,7 +164,7 @@ symbol createEmptyFunction(char* name, bool isProcedure) {
     initName(&sy.name, name);
     sy.isConst = false;
     sy.type = (isProcedure) ? tProc : tFunc;
-    //sy.val.f = malloc(sizeof(function));
+    sy.val.f = malloc(sizeof(function));
 
     return sy;
 }
@@ -223,6 +223,21 @@ ssymbol symbolToSmall(symbol sy) {
 symbol* lookup(char* s) {
     // Find symbol from most local scope to most global scope
     tables* it = memory;
+    while(it) {
+        int idx = getIdx(it->table, s, s, empty);
+        if (idx != -1)
+            return &it->table[idx];
+        it = it->next;
+    }
+    return NULL;
+}
+
+symbol* lookupSkip(char* s, int skipScope) {
+    // Find symbol, skipping scope skipScope times, finding it from that scope
+    tables* it = memory;
+    for (int i = 0; i < skipSCope && it; i++) {
+        it = it->next;
+    }
     while(it) {
         int idx = getIdx(it->table, s, s, empty);
         if (idx != -1)
