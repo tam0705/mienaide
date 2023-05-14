@@ -111,12 +111,15 @@ void freeSymbol(symbol sy) {
         if (strlen(type) >= 8) tabs[1][2] = '\0';
         printf("free symbol5\n");
 
-        printf("%s%s%s%s%s\n", sy.name, tabs[0], type, tabs[1], valType);
+        //printf("%s%s%s%s%s\n", sy.name, tabs[0], type, tabs[1], valType);
+        printf("%s", sy.name);
+        printf("%s", tabs[0]);
+        printf("%s", type);
+        printf("%s", tabs[1]);
+        printf("%s\n", valType);
 
     }
-    printf("free symbol6\n");
     free(sy.name);
-    printf("free symbol7\n");
 }
 
 void freeTable(symbol* table) {
