@@ -395,7 +395,7 @@ funcdec : FUNCTION IDENT {
             int returnType = $11;
             if (valType != returnType)
                 yyerror("Function must have correct result type");
-            trace("aaaaa");
+            
             deleteScope(); deleteScope();
           }
           END IDENT {
@@ -441,7 +441,6 @@ procdec : PROCEDURE IDENT {
 
 // Arguments for function and procedure
 arguments : argument_list argument {
-                trace("b");
                 function f = $1;
                 f.argsize++;
                 if (f.argsize == 1)
@@ -459,7 +458,6 @@ arguments : argument_list argument {
 
 // Recursive statement for arguments
 argument_list : argument_list argument ',' {
-                    trace("c");
                     function f = $1;
                     f.argsize++;
                     if (f.argsize == 1)
@@ -470,7 +468,6 @@ argument_list : argument_list argument ',' {
                     $$ = f;
               }
               | {
-                    trace("d");
                     function f;
                     f.argsize = 0;
                     $$ = f;
@@ -478,7 +475,6 @@ argument_list : argument_list argument ',' {
 
 // Recursive component for arguments
 argument : IDENT ':' vtype {
-            trace("arg");
             char* name = $1;
             int valType = $3;
 
@@ -500,7 +496,6 @@ argument : IDENT ':' vtype {
             insertSymbol(sy, idx);
 
             $$ = a;
-            trace("arg done");
          }
          | IDENT ':' ARRAY NUM_INT '.' '.' NUM_INT OF vtype {
             char* name = $1;

@@ -106,18 +106,8 @@ void freeSymbol(symbol sy) {
         if (strlen(sy.name) >= 8) tabs[0][2] = '\0';
         if (strlen(sy.name) >= 16) tabs[0][1] = '\0';
         if (strlen(type) >= 8) tabs[1][2] = '\0';
-        printf("free symbol\n");
 
-        
-
-        //printf("%s%s%s%s%s\n", sy.name, tabs[0], type, tabs[1], valType);
-        printf("%s", sy.name);
-        printf("%s", tabs[0]);
-        printf("%d %d\n", sy.type, sy.valType);
-        //printf("%s", type);
-        printf("%s\n", tabs[1]);
-        //printf("%s\n", valType);
-
+        printf("%s%s%s%s%s\n", sy.name, tabs[0], type, tabs[1], valType);
     }
     free(sy.name);
 }
@@ -314,15 +304,11 @@ ssymbol opNumber(ssymbol n1, ssymbol n2, int op) {
 
 void copyFunction(function from, function* to) {    
     to->argsize = from.argsize;
-    printf("a");
     to->args = from.args;
-    printf("a2");
     if (to->argsize <= 0)
         return; 
-    printf("aa");
     to->args = malloc(to->argsize * sizeof(argument));
     for (int i = 0; i < to->argsize; i++) {
-        printf("aaa\n");
         to->args[i] = from.args[i];
         if (to->args[i].type == tArr) {
             to->args[i].val.a = malloc(sizeof(array));
