@@ -20,7 +20,7 @@
     Currently, there are some restrictions:
     - The maximum identifier name length is 32
     - The maximum string length is 64
-    - Each scope has a symbol table of maximum 16 symbols
+    - Each scope has a symbol table of maximum 24 symbols
     These restrictions are applied to consider the memory.
 
     The structures that I use are:
@@ -151,7 +151,7 @@ statement : block { $$ = tNull; }
 
 // Begin - end block
 // Add scope when entering, remove scope when leaving
-block : BEGIN_ { addScope(); } body { trace("a"); deleteScope(); trace("b"); } END;
+block : BEGIN_ { addScope(); } body { deleteScope(); } END;
 
 // Simple statements
 // $$ stores return type, is used to check function and procedure return type
@@ -192,6 +192,7 @@ simple : IDENT ASSIGN expr {
        }
        | PUT expr { $$ = tNull; }
        | GET IDENT { $$ = tNull; }
+       | GET arr_ref { $$ = tNull; }
        | RESULT expr {
             if ($2.type == tArr)
                 yyerror("Invalid result expression: array");
@@ -384,7 +385,7 @@ funcdec : FUNCTION IDENT {
 
             symbol* sy = lookup($2);
             sy->valType = valType;
-            *(sy->val.f) = f;
+            copyFunction(f, sy->val.f);
 
             addScope(); 
           }
@@ -420,12 +421,7 @@ procdec : PROCEDURE IDENT {
 
             symbol* sy = lookup($2);
             sy->valType = tNull;
-            *(sy->val.f) = f;
-
-            for (int i = 0; i < f.argsize; i++) {
-                if (f.args[i].type == tArr)
-                    printf("Size %d\n", f.args[i].val.a->size);
-            }
+            copyFunction(f, sy->val.f);
 
             addScope(); 
           }
@@ -523,7 +519,7 @@ argument : IDENT ':' vtype {
             ssy.type = a.type;
             ssy.valType = valType;
             ssy.isConst = false;
-            ssy.val = a.val;
+            ssy.val.a = a.val.a;
 
             symbol sy = createSymbol(name, tArr, ssy);
             insertSymbol(sy, idx);
@@ -681,8 +677,8 @@ term : '(' expr ')' { $$ = $2; }
         if (sy == NULL)
             yyerror("Unrecognized identifier");
         
-        if (sy->type == tProc)
-            yyerror("Illegal expression, identifier has no return type");
+        if (sy->type == tProc || sy->type == tFunc)
+            yyerror("Attempted to invoke a function/procedure without brackets '()'");
         
         if (sy->type == tFunc) {
             if (sy->val.f->argsize > 0) {
@@ -724,7 +720,7 @@ arr_ref : IDENT '[' expr ']' {
         };
 
 // Function/procedure invocation that HAS arguments
-call : IDENT cargs {
+call : IDENT '(' cargs ')' {
             symbol* sy = lookup($1);
 
             if (sy == NULL)
@@ -734,7 +730,7 @@ call : IDENT cargs {
                 yyerror("Trying to call a non-function identifier");
 
             function originalF = *(sy->val.f);
-            function passedF = $2;
+            function passedF = $3;
 
             if (!isFuncEqual(originalF, passedF))
                 yyerror("Invalid function invocation, possible reasons are invalid argument size, type, or array bounds");
@@ -743,7 +739,7 @@ call : IDENT cargs {
      };
 
 // Arguments just for function invocation
-cargs : '(' carg_list expr ')' {
+cargs : carg_list expr {
             function f = $2;
             f.argsize++;
             if (f.argsize == 1)
@@ -761,6 +757,7 @@ cargs : '(' carg_list expr ')' {
             f.args[f.argsize - 1] = a;
             $$ = f;
       }
+      | carg_list { $$ = $1; };
 
 // Recursive part for arguments for invocation
 carg_list : carg_list expr ',' {

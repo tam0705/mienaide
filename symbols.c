@@ -18,7 +18,7 @@ typedef struct Tables {
     struct Tables* next;
 } tables;
 
-const int tablelen = 16;
+const int tablelen = 24;
 char empty[1] = { '\0' };
 
 // Symbol table is a linked list
@@ -44,18 +44,14 @@ void addScope() {
 
 void deleteScope() {
     // Delete from beginning
-    printf("b\n");
     tables* temp = memory;
-    printf("c\n");
     memory = memory->next;
-    printf("d\n");
 
     // Free memory
-    printf("free\n");
+    //printf("free\n");
     freeTable(temp->table);
-    printf("free 1\n");
-    //free(temp);
-    printf("free done\n");
+    free(temp);
+    //printf("free done\n");
 }
 
 void dump() {
@@ -65,18 +61,22 @@ void dump() {
 }
 
 void freeArray(array* a) {
-    printf("free array\n");
+    //printf("free array\n");
     free(a);
-    printf("free array done\n");
+    //printf("free array done\n");
 }
 
 void freeArguments(argument* args, int size) {
+    //if (size > 0)
+        //printf("free arguments\n");
     for (int i = 0; i < size; i++) {
         if (args[i].type == tArr)
             freeArray(args[i].val.a);
     }
 
     free(args);
+    //if (size > 0)
+        //printf("free arguments done\n");
 }
 
 void freeFunction(function* f) {
@@ -86,14 +86,18 @@ void freeFunction(function* f) {
 }
 
 void freeSymbol(symbol sy) {
-    printf("free symbol %s\n", sy.name);
+    bool hasName = strcmp(sy.name, empty) != 0;
+    //if (hasName)
+        //printf("free symbol %s\n", sy.name);
     free(sy.name);
-    switch (sy.type) {
-        case tProc:
-        case tFunc: freeFunction(sy.val.f); break;
-        case tArr: freeArray(sy.val.a); break;
+    if (hasName) {
+        switch (sy.type) {
+            case tProc:
+            case tFunc: freeFunction(sy.val.f); break;
+            case tArr: freeArray(sy.val.a); break;
+        }
+        //printf("free symbol done\n");
     }
-    printf("free symbol done\n");
 }
 
 void freeTable(symbol* table) {
@@ -271,16 +275,29 @@ ssymbol opNumber(ssymbol n1, ssymbol n2, int op) {
     return n1;
 }
 
+void copyFunction(function from, function* to) {
+    *to = from;
+
+    to->args = malloc(to->argsize * sizeof(argument));
+    for (int i = 0; i < to->argsize; i++) {
+        to->args[i] = from.args[i];
+        if (to->args[i].type == tArr) {
+            to->args[i].val.a = malloc(sizeof(array));
+            *(to->args[i].val.a) = *(from.args[i].val.a);
+        }
+    }
+}
+
 bool isFuncEqual(function f1, function f2) {
     if (f1.argsize != f2.argsize) return false;
 
     for (int i = 0; i < f1.argsize; i++) {
-        printf("%d %d\n", f1.args[i].type, f1.args[i].valType);
-        printf("%d %d\n", f2.args[i].type, f2.args[i].valType);
+        //printf("%d %d\n", f1.args[i].type, f1.args[i].valType);
+        //printf("%d %d\n", f2.args[i].type, f2.args[i].valType);
         if (f1.args[i].type != f2.args[i].type) return false;
         if (f1.args[i].valType != f2.args[i].valType) return false;
         if (f1.args[i].type == tArr) {
-            printf("Array %d %d\n", f1.args[i].val.a->size, f2.args[i].val.a->size);
+            //printf("Array %d %d\n", f1.args[i].val.a->size, f2.args[i].val.a->size);
             if (f1.args[i].val.a->size != f2.args[i].val.a->size) return false;
         }
     }

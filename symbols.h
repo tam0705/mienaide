@@ -79,6 +79,7 @@ void initString(char** var, char* val);
 bool isBothNumber(int type1, int type2);
 ssymbol opNumber(ssymbol n1, ssymbol n2, int op);
 
+void copyFunction(function from, function* to);
 bool isFuncEqual(function f1, function f2);
 
 #endif
