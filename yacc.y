@@ -740,14 +740,14 @@ call : IDENT '(' cargs ')' {
 
 // Arguments just for function invocation
 cargs : carg_list expr {
-            function f = $2;
+            function f = $1;
             f.argsize++;
             if (f.argsize == 1)
                 f.args = malloc(sizeof(argument));
             else
                 f.args = realloc(f.args, f.argsize * sizeof(argument));
 
-            ssymbol ssy = $3;
+            ssymbol ssy = $2;
 
             argument a;
             a.type = ssy.type;
