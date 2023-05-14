@@ -40,6 +40,8 @@ void addScope() {
     // Insert at beginning
     newScope->next = memory;
     memory = newScope;
+
+    printf(">>> A new local scope is detected. Adding a new symbol table..\n");
 }
 
 void deleteScope() {
@@ -47,11 +49,15 @@ void deleteScope() {
     tables* temp = memory;
     memory = memory->next;
 
+    printf(">>> Exiting a local scope and freeing its memory..\n");
+    printf("-------------------------------------\n");
+    printf("Symbol\tType\tValue type\n");
+
     // Free memory
-    //printf("free\n");
     freeTable(temp->table);
     free(temp);
-    //printf("free done\n");
+
+    printf("-------------------------------------\n");
 }
 
 void dump() {
@@ -61,22 +67,16 @@ void dump() {
 }
 
 void freeArray(array* a) {
-    //printf("free array\n");
     free(a);
-    //printf("free array done\n");
 }
 
 void freeArguments(argument* args, int size) {
-    //if (size > 0)
-        //printf("free arguments\n");
     for (int i = 0; i < size; i++) {
         if (args[i].type == tArr)
             freeArray(args[i].val.a);
     }
 
     free(args);
-    //if (size > 0)
-        //printf("free arguments done\n");
 }
 
 void freeFunction(function* f) {
@@ -86,18 +86,26 @@ void freeFunction(function* f) {
 }
 
 void freeSymbol(symbol sy) {
-    bool hasName = strcmp(sy.name, empty) != 0;
-    //if (hasName)
-        //printf("free symbol %s\n", sy.name);
-    free(sy.name);
-    if (hasName) {
+    if (strcmp(sy.name, empty) != 0) {
         switch (sy.type) {
             case tProc:
             case tFunc: freeFunction(sy.val.f); break;
             case tArr: freeArray(sy.val.a); break;
         }
-        //printf("free symbol done\n");
+
+        // Print out symbol
+        const char names[5][10] = { "Variable", "Array", "Procedure", "Function", "Constant" };
+        const char types[7][10] = { "Integer", "Real", "Boolean", "String", "", "", "None" };
+
+        char *type = names[sy.type];
+        if (sy.isConst)
+            type = names[4];
+        char *valType = types[sy.valType];
+
+        printf("%s\t%s\t%s\n", sy.name, type, valType);
+
     }
+    free(sy.name);
 }
 
 void freeTable(symbol* table) {
@@ -292,12 +300,9 @@ bool isFuncEqual(function f1, function f2) {
     if (f1.argsize != f2.argsize) return false;
 
     for (int i = 0; i < f1.argsize; i++) {
-        //printf("%d %d\n", f1.args[i].type, f1.args[i].valType);
-        //printf("%d %d\n", f2.args[i].type, f2.args[i].valType);
         if (f1.args[i].type != f2.args[i].type) return false;
         if (f1.args[i].valType != f2.args[i].valType) return false;
         if (f1.args[i].type == tArr) {
-            //printf("Array %d %d\n", f1.args[i].val.a->size, f2.args[i].val.a->size);
             if (f1.args[i].val.a->size != f2.args[i].val.a->size) return false;
         }
     }

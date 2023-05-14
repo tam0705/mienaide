@@ -71,7 +71,7 @@
 #include <string.h>
 #include "symbols.h"
 
-#define trace(t) printf(">> Grammar: %s\n", t);
+#define trace(t) printf(">>>  %s\n", t);
 
 extern int yylineno;
 extern FILE* yyin;
@@ -378,6 +378,7 @@ funcdec : FUNCTION IDENT {
             insertSymbol(sy, idx);
 
             addScope();
+            trace("Note: This is a scope just for the arguments");
 
           } '(' arguments ')' ':' vtype NEWLINE {
             function f = $5;
@@ -415,6 +416,7 @@ procdec : PROCEDURE IDENT {
             insertSymbol(sy, idx);
 
             addScope();
+            trace("Note: This is a scope just for the arguments");
 
           } '(' arguments ')' NEWLINE {
             function f = $5;
