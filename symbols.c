@@ -86,12 +86,15 @@ void freeFunction(function* f) {
 }
 
 void freeSymbol(symbol sy) {
+    printf("free symbol\n");
     if (strcmp(sy.name, empty) != 0) {
+        printf("free symbol1\n");
         switch (sy.type) {
             case tProc:
             case tFunc: break; //freeFunction(sy.val.f); break;
-            case tArr: freeArray(sy.val.a); break;
+            case tArr: break; //freeArray(sy.val.a); break;
         }
+        printf("free symbol2\n");
 
         // Print out symbol
         const char names[5][10] = { "Variable", "Array", "Procedure", "Function", "Constant" };
