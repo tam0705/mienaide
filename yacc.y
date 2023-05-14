@@ -384,19 +384,20 @@ funcdec : FUNCTION IDENT {
             trace("a");
             function f = $5;
             int valType = $8;
-
+            trace("aa");
             symbol* sy = lookup($2);
             sy->valType = valType;
             copyFunction(f, sy->val.f);
-
+            trace("aaa");
             addScope(); 
+            trace("aaaa");
           }
           body {
             int valType = $8;
             int returnType = $11;
             if (valType != returnType)
                 yyerror("Function must have correct result type");
-
+            trace("aaaaa");
             deleteScope(); deleteScope();
           }
           END IDENT {
