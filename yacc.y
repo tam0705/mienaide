@@ -379,9 +379,9 @@ funcdec : FUNCTION IDENT {
 
             addScope();
 
-          } arguments ':' vtype NEWLINE {
-            function f = $4;
-            int valType = $6;
+          } '(' arguments ')' ':' vtype NEWLINE {
+            function f = $5;
+            int valType = $8;
 
             symbol* sy = lookup($2);
             sy->valType = valType;
@@ -390,15 +390,15 @@ funcdec : FUNCTION IDENT {
             addScope(); 
           }
           body {
-            int valType = $6;
-            int returnType = $9;
+            int valType = $8;
+            int returnType = $11;
             if (valType != returnType)
                 yyerror("Function must have correct result type");
 
             deleteScope(); deleteScope();
           }
           END IDENT {
-                if (strcmp($2, $12) != 0)
+                if (strcmp($2, $14) != 0)
                     yyerror("End function name does not match");
           };
 
@@ -416,8 +416,8 @@ procdec : PROCEDURE IDENT {
 
             addScope();
 
-          } arguments NEWLINE {
-            function f = $4;
+          } '(' arguments ')' NEWLINE {
+            function f = $5;
 
             symbol* sy = lookup($2);
             sy->valType = tNull;
@@ -426,26 +426,26 @@ procdec : PROCEDURE IDENT {
             addScope(); 
           }
           body {
-            int returnType = $7;
+            int returnType = $9;
             if (returnType != tNull)
                 yyerror("Procedure cannot have result type");
 
             deleteScope(); deleteScope();
           }
           END IDENT {
-                if (strcmp($2, $10) != 0)
+                if (strcmp($2, $12) != 0)
                     yyerror("End function name does not match");
           };;
 
 // Arguments for function and procedure
-arguments : '(' argument_list argument ')' {
-                function f = $2;
+arguments : argument_list argument {
+                function f = $1;
                 f.argsize++;
                 if (f.argsize == 1)
                     f.args = malloc(sizeof(argument));
                 else
                     f.args = realloc(f.args, f.argsize * sizeof(argument));
-                f.args[f.argsize - 1] = $3;
+                f.args[f.argsize - 1] = $2;
                 $$ = f;
           }
           | {
