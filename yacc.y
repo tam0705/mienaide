@@ -756,6 +756,9 @@ cargs : carg_list expr {
             a.valType = ssy.valType;
             a.val = ssy.val;
 
+            if (a.valType == tFunc || a.valType == tProc)
+                a.valType = tVar;
+
             f.args[f.argsize - 1] = a;
             $$ = f;
       }
@@ -776,6 +779,9 @@ carg_list : carg_list expr ',' {
                 a.type = ssy.type;
                 a.valType = ssy.valType;
                 a.val = ssy.val;
+
+                if (a.valType == tFunc || a.valType == tProc)
+                    a.valType = tVar;
 
                 f.args[f.argsize - 1] = a;
                 $$ = f;
