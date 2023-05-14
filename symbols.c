@@ -97,10 +97,10 @@ void freeSymbol(symbol sy) {
         const char names[5][10] = { "Variable", "Array", "Procedure", "Function", "Constant" };
         const char types[7][10] = { "Integer", "Real", "Boolean", "String", "", "", "None" };
 
-        char *type = names[sy.type];
+        const char* type = names[sy.type];
         if (sy.isConst)
             type = names[4];
-        char *valType = types[sy.valType];
+        const char* valType = types[sy.valType];
 
         printf("%s\t%s\t%s\n", sy.name, type, valType);
 
