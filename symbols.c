@@ -289,10 +289,16 @@ ssymbol opNumber(ssymbol n1, ssymbol n2, int op) {
 }
 
 void copyFunction(function from, function* to) {
+    printf("a\n");
     *to = from;
+    printf("aa\n");
 
+    if (to->argsize <= 0)
+        return; 
+    
     to->args = malloc(to->argsize * sizeof(argument));
     for (int i = 0; i < to->argsize; i++) {
+        printf("aaa\n");
         to->args[i] = from.args[i];
         if (to->args[i].type == tArr) {
             to->args[i].val.a = malloc(sizeof(array));
