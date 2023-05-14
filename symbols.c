@@ -51,7 +51,7 @@ void deleteScope() {
 
     printf(">>> Exiting a local scope and freeing its memory..\n");
     printf("-------------------------------------\n");
-    printf("Symbol\tType\tValue type\n");
+    printf("Symbol\t\tType\t\tValue type\n");
 
     // Free memory
     freeTable(temp->table);
@@ -102,7 +102,7 @@ void freeSymbol(symbol sy) {
             type = names[4];
         const char* valType = types[sy.valType];
 
-        printf("%s\t%s\t%s\n", sy.name, type, valType);
+        printf("%s\t\t%s\t\t%s\n", sy.name, type, valType);
 
     }
     free(sy.name);
