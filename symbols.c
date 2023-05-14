@@ -111,8 +111,8 @@ void freeSymbol(symbol sy) {
         
 
         //printf("%s%s%s%s%s\n", sy.name, tabs[0], type, tabs[1], valType);
-        //printf("%s", sy.name);
-        printf("a%s", tabs[0]);
+        printf("%s", sy.name);
+        printf("%s", tabs[0]);
         //printf("%s", type);
         printf("%sa\n", tabs[1]);
         //printf("%s\n", valType);
