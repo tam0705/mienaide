@@ -102,7 +102,7 @@ void freeSymbol(symbol sy) {
             type = names[4];
         const char* valType = types[sy.valType];
 
-        char* tabs[2][4] = { "\t\t\t", "\t\t\t" };
+        char tabs[2][4] = { "\t\t\t", "\t\t\t" };
         if (strlen(sy.name) >= 8) tabs[0][3] = '\0';
         if (strlen(sy.name) >= 16) tabs[0][2] = '\0';
         if (strlen(type) >= 8) tabs[1][3] = '\0';
