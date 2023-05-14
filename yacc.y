@@ -424,6 +424,7 @@ procdec : PROCEDURE IDENT {
 
             symbol* sy = lookup($2);
             sy->valType = tNull;
+            sy->val.f = malloc(sizeof(function));
             copyFunction(f, sy->val.f);
 
             addScope(); 

@@ -155,7 +155,7 @@ symbol createEmptyFunction(char* name, bool isProcedure) {
     initName(&sy.name, name);
     sy.isConst = false;
     sy.type = (isProcedure) ? tProc : tFunc;
-    sy.val.f = malloc(sizeof(function));
+    //sy.val.f = malloc(sizeof(function));
 
     return sy;
 }
