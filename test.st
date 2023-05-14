@@ -37,6 +37,14 @@ procedure putArray(num: int, a: array 1 .. 8 of int)
   end for
 end putArray
 
+procedure fakeMain()
+  put "N: "
+  put n
+  skip
+  put "Result of iterative computation:\n"
+  putArray(10, arr)
+end fakeMain
+
 % main program
 begin
   var s: string := "Don't mind me"
@@ -47,8 +55,4 @@ begin
   arr[1] := 0
 end
 
-put "N: "
-put n
-skip
-put "Result of iterative computation:\n"
-putArray(10, arr)
+fakeMain()
