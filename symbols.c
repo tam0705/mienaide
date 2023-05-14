@@ -89,7 +89,7 @@ void freeSymbol(symbol sy) {
     if (strcmp(sy.name, empty) != 0) {
         switch (sy.type) {
             case tProc:
-            case tFunc: freeFunction(sy.val.f); break;
+            case tFunc: break; //freeFunction(sy.val.f); break;
             case tArr: freeArray(sy.val.a); break;
         }
 
