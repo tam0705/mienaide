@@ -26,6 +26,17 @@ function itFibonacci (n: int) : int
   result Fn
 end itFibonacci
 
+function deep(val: bool) : string
+  loop
+    exit when true
+    if val then
+      result "yes"
+    else
+      result "no"
+    end if
+  end loop
+end deep
+
 procedure putArray(num: int, a: array 1 .. 8 of int)
   for i : 1 .. n
     a[i] := num - 1
@@ -52,6 +63,7 @@ begin
   var r: real := 1 + 1.0 * (2.5 - 3) / 2.7
   put s
   put ss
+  put deep(true)
   arr[1] := 0
 end
 
