@@ -151,11 +151,7 @@ statement : block { $$ = $1; }
 
 // Begin - end block
 // Add scope when entering, remove scope when leaving
-block : BEGIN_ { addScope(); } body
-      {
-        deleteScope();
-        $$ = $3;
-      } END;
+block : BEGIN_ { addScope(); } body { deleteScope(); } END { $$ = $3; };
 
 // Simple statements
 // $$ stores return type, is used to check function and procedure return type
@@ -228,8 +224,8 @@ conditional : if_front
                 else if (resultType2 != tNull) $$ = resultType2;
                 else $$ = tNull;
               }
-            | if_front { $$ = $1; }
-              END IF;
+            | if_front
+              END IF { $$ = $1; };
 
 if_front : IF expr THEN {
                 addScope();
@@ -242,8 +238,8 @@ if_front : IF expr THEN {
 
 // Loops have their own scopes
 loop : LOOP { addScope(); }
-       body { deleteScope(); $$ = $3; }
-       END LOOP
+       body { deleteScope(); }
+       END LOOP { $$ = $3; }
      | FOR for_option IDENT ':' expr '.' '.' expr NEWLINE {
             if ($5.valType != tInt || $8.valType != tInt ||
                 !$5.isConst || !$8.isConst ||
@@ -263,8 +259,8 @@ loop : LOOP { addScope(); }
 
             addScope();
        }
-       body { deleteScope(); $$ = $11; }
-       END FOR;
+       body { deleteScope(); }
+       END FOR { $$ = $11; };
 
 for_option : DECREASING | ;
 
