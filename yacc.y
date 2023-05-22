@@ -105,7 +105,7 @@ int main(int argc, char *argv[]);
 %token <i> NUM_INT
 %token <s> IDENT SCONST
 
-%type <i> decopt vtype body statement simple
+%type <i> decopt vtype body statement block simple conditional loop if_front
 %type <a> argument
 %type <sy> arr_ref
 %type <ssy> expr term call
@@ -143,15 +143,19 @@ statement_part: statement_part statement NEWLINE
 
 // Types of statements
 // $$ stores return type, is used to check function and procedure return type
-statement : block { $$ = tNull; }
+statement : block { $$ = $1; }
           | simple { $$ = $1; }
           | expr { $$ = tNull; }
-          | conditional { $$ = tNull; }
-          | loop { $$ = tNull; };
+          | conditional { $$ = $1; }
+          | loop { $$ = $1; };
 
 // Begin - end block
 // Add scope when entering, remove scope when leaving
-block : BEGIN_ { addScope(); } body { deleteScope(); } END;
+block : BEGIN_ { addScope(); } body
+      {
+        deleteScope();
+        $$ = $3;
+      } END;
 
 // Simple statements
 // $$ stores return type, is used to check function and procedure return type
@@ -214,8 +218,17 @@ simple : IDENT ASSIGN expr {
 conditional : if_front
               ELSE { addScope(); }
               body { deleteScope(); }
-              END IF
-            | if_front
+              END IF {
+                int resultType1 = $1;
+                int resultType2 = $4;
+                if (resultType1 != tNull && resultType2 != tNull && resultType1 != resultType2)
+                    yyerror("Multiple result types in an if-else conditional");
+                
+                if (resultType1 != tNull) $$ = resultType1;
+                else if (resultType2 != tNull) $$ = resultType2;
+                else $$ = tNull;
+              }
+            | if_front { $$ = $1; }
               END IF;
 
 if_front : IF expr THEN {
@@ -225,11 +238,11 @@ if_front : IF expr THEN {
                 if ($2.valType != tBool)
                     yyerror("Trying to assign a non-boolean expression to a conditional");
            }
-           body { deleteScope(); };
+           body { deleteScope(); $$ = $5; };
 
 // Loops have their own scopes
 loop : LOOP { addScope(); }
-       body { deleteScope(); }
+       body { deleteScope(); $$ = $3; }
        END LOOP
      | FOR for_option IDENT ':' expr '.' '.' expr NEWLINE {
             if ($5.valType != tInt || $8.valType != tInt ||
@@ -250,7 +263,7 @@ loop : LOOP { addScope(); }
 
             addScope();
        }
-       body { deleteScope(); }
+       body { deleteScope(); $$ = $11; }
        END FOR;
 
 for_option : DECREASING | ;
